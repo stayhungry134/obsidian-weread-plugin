@@ -22,7 +22,7 @@ export class Renderer {
 		const { metaData, chapterHighlights, bookReview } = entry;
 		// 增加格式化阅读数据
 		metaData.readInfo.readingTimeStr = formatTimeDuration(metaData.readInfo.readingTime);
-		metaData.readInfo.readingTimeStr = formatTimestampToDate(metaData.readInfo.readingBookDate);
+		metaData.readInfo.readingBookDateStr = formatTimestampToDate(metaData.readInfo.readingBookDate);
 		if (metaData.readInfo.finishedDate) {
 			metaData.readInfo.finishedDateStr = formatTimestampToDate(metaData.readInfo.finishedDate);
 		}
