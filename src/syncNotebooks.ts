@@ -1,20 +1,21 @@
 import ApiManager from './api';
 import FileManager from './fileManager';
-import { Metadata, Notebook, AnnotationFile, BookProgressResponse, type RenderTemplate } from './models';
+import { AnnotationFile, BookProgressResponse, Metadata, Notebook } from './models';
 import {
-	parseHighlights,
-	parseMetadata,
+	parseArticleHighlightReview,
 	parseChapterHighlightReview,
+	parseChapterResp,
 	parseChapterReviews,
 	parseDailyNoteReferences,
-	parseReviews,
-	parseChapterResp,
-	parseArticleHighlightReview
+	parseHighlights,
+	parseMetadata,
+	parseReviews
 } from './parser/parseResponse';
 import { settingsStore } from './settings';
 import { get } from 'svelte/store';
 import { Notice } from 'obsidian';
 import { formatTimeDuration, formatTimestampToDate } from './utils/dateUtil';
+
 export default class SyncNotebooks {
 	private fileManager: FileManager;
 	private apiManager: ApiManager;
@@ -94,10 +95,9 @@ export default class SyncNotebooks {
 				readingTime: progress.book.readingTime,
 				readingBookDate: progress.book.startReadingTime,
 				finishedDate: progress.book.finishTime,
-				// 增加格式化阅读数据
 				readingTimeStr: formatTimeDuration(progress.book.readingTime),
 				readingBookDateStr: formatTimestampToDate(progress.book.startReadingTime),
-				finishedDateStr: formatTimestampToDate(metaData.readInfo.finishedDate),
+				finishedDateStr: formatTimestampToDate(metaData.readInfo.finishedDate)
 			};
 		}
 
@@ -162,8 +162,7 @@ export default class SyncNotebooks {
 
 	private async getALlMetadata() {
 		const noteBookResp: [] = await this.apiManager.getNotebooksWithRetry();
-		const metaDataArr = noteBookResp.map((noteBook) => parseMetadata(noteBook));
-		return metaDataArr;
+		return noteBookResp.map((noteBook) => parseMetadata(noteBook));
 	}
 
 	private async saveToJounal(journalDate: string, metaDataArr: Metadata[]) {
@@ -208,15 +207,9 @@ export default class SyncNotebooks {
 	): Promise<AnnotationFile> {
 		const localFile = localFiles.find((file) => file.bookId === notebookMeta.bookId) || null;
 		if (localFile) {
-			if (
-				localFile.noteCount == notebookMeta.noteCount &&
+			localFile.new = !(localFile.noteCount == notebookMeta.noteCount &&
 				localFile.reviewCount == notebookMeta.reviewCount &&
-				!force
-			) {
-				localFile.new = false;
-			} else {
-				localFile.new = true;
-			}
+				!force);
 			return localFile;
 		}
 		return null;

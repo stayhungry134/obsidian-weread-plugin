@@ -357,6 +357,9 @@ export type Metadata = {
 		finishedBookIndex?: number;
 		finishedDate: number;
 		readingProgress: number;
+		readingTimeStr?: string;
+		readingBookDateStr?: string
+		finishedDateStr?: string;
 		[key: string]: string | number;
 	};
 };
