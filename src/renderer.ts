@@ -45,12 +45,6 @@ export class Renderer {
 
 	render(entry: Notebook): string {
 		const { metaData, chapterHighlights, bookReview } = entry;
-		// 增加格式化阅读数据
-		metaData.readInfo.readingTimeStr = formatTimeDuration(metaData.readInfo.readingTime);
-		metaData.readInfo.readingBookDateStr = formatTimestampToDate(metaData.readInfo.readingBookDate);
-		if (metaData.readInfo.finishedDate) {
-			metaData.readInfo.finishedDateStr = formatTimestampToDate(metaData.readInfo.finishedDate);
-		}
 		const context: RenderTemplate = {
 			metaData,
 			chapterHighlights,

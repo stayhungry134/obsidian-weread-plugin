@@ -1,6 +1,6 @@
 import ApiManager from './api';
 import FileManager from './fileManager';
-import { Metadata, Notebook, AnnotationFile, BookProgressResponse } from './models';
+import { Metadata, Notebook, AnnotationFile, BookProgressResponse, type RenderTemplate } from './models';
 import {
 	parseHighlights,
 	parseMetadata,
@@ -14,6 +14,7 @@ import {
 import { settingsStore } from './settings';
 import { get } from 'svelte/store';
 import { Notice } from 'obsidian';
+import { formatTimeDuration, formatTimestampToDate } from './utils/dateUtil';
 export default class SyncNotebooks {
 	private fileManager: FileManager;
 	private apiManager: ApiManager;
@@ -92,7 +93,11 @@ export default class SyncNotebooks {
 				readingProgress: progress.book.progress,
 				readingTime: progress.book.readingTime,
 				readingBookDate: progress.book.startReadingTime,
-				finishedDate: progress.book.finishTime
+				finishedDate: progress.book.finishTime,
+				// 增加格式化阅读数据
+				readingTimeStr: formatTimeDuration(progress.book.readingTime),
+				readingBookDateStr: formatTimestampToDate(progress.book.startReadingTime),
+				finishedDateStr: formatTimestampToDate(metaData.readInfo.finishedDate),
 			};
 		}
 
