@@ -7,5 +7,8 @@ export const formatTimeDuration = (durationInSeconds: number): string => {
 };
 
 export const formatTimestampToDate = (readingBookDate: number): string => {
+	if (!readingBookDate) {
+		return '';
+	}
 	return window.moment(readingBookDate * 1000).format('YYYY-MM-DD');
 };

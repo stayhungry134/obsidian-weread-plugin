@@ -97,7 +97,7 @@ export default class SyncNotebooks {
 				finishedDate: progress.book.finishTime,
 				readingTimeStr: formatTimeDuration(progress.book.readingTime),
 				readingBookDateStr: formatTimestampToDate(progress.book.startReadingTime),
-				finishedDateStr: formatTimestampToDate(metaData.readInfo.finishedDate)
+				finishedDateStr: formatTimestampToDate(progress.book.finishTime)
 			};
 		}
 
