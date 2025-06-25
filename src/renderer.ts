@@ -2,7 +2,6 @@ import * as nunjucks from 'nunjucks';
 import type { Notebook, RenderTemplate } from './models';
 import { settingsStore } from './settings';
 import { get } from 'svelte/store';
-import {formatTimeDuration, formatTimestampToDate} from "./utils/dateUtil";
 export class Renderer {
 	constructor() {
 		nunjucks.configure({ autoescape: false })
